@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        import React, { useState } from 'react';
+
+        function BirthdayGiftCard() {
+          const [stage, setStage] = useState('password');
+          const [passwordInput, setPasswordInput] = useState('');
+          const [currentIndex, setCurrentIndex] = useState(0);
+          const [showNoReaction, setShowNoReaction] = useState(false);
+
+          const correctPassword = '1210';
+
+          const memories = [
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202025-11-25%20at%209.57.44%20PM.jpeg',
+              message: 'Meri last bdy yd h na? wow, kitna asha din tha wo. na bhulny waly dino myn sy. tm pyari lg rhi thi, hmesha ki trha. or meri lg rhi thi. i wish hm meri hr bdy sath mna sky. tm hr br ese hi ao. kitna asha lgy ga na. hm hm blkl blkl asha to lgy ga bhaee.'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-01-01%20at%2010.31.54%20AM.jpeg',
+              message: 'hm hm mere bgyr ja kr kha lia tha pizza hna dosto sath. tmy meri blkl yd nhi ai naial?? 😭 (kachiiiiiiii). jao jao ab unhi k sath ja kr khana.. but but but. hmeshaaa ki trha bhtt pyari lg rhi ho or meri lg rhi ho.'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-05-23%20at%204.57.23%20PM.jpeg',
+              message: 'ye yd h? hm jb b milty h to aksr tsveer nhi bnatyy. so this is the rarest moment ever i guess. tmy milkshake psnd nhi aya. hd hh wese. tmy wo kese napsnd ho skta naiall... looo phr sy kachiiiiiiiii.'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-05-27%20at%204.14.58%20PM.jpeg',
+              message: 'ahaaaa... meri eid to isy dekhny k bd hui thi. tm kitni pyari lg rhi thi. wait a minute.. tm ny ye dlt kr di thi hna??? or kia kha tha? usy snd kru gi. hm hm jao jao ab phr sy kachiiiiiiiiiiii'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/marahh%20jameela.jpeg',
+              message: 'You know naial. mjy lrkiya nkab myn bht psnd h. or phr pyari lrkiya to kia hi bt.. or mjy tmri ye tsveer bhttt psnd h. ma ny isy maraah jameela k nam sy save kia h. meri mano to ese hi nkab shuru kr do. pr phr tm roz rasty myn lrko ko hear attack krwa k aya kro gi. phr sy kachiiiiiiiiiiiiiiiiii'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/mere%20psndida%20hath.jpeg',
+              message: 'Mjy tmry hath bht psnd h. mere psandida hath. ma ny isi nam sy save ki h ye tsveer. tmri nazuk sfaid ptli ungliya. uffffff mjy bhttttt psndd h. chlo ab isi bt py pakiii kr lete.'
+            },
+            {
+              image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/naial.jpg',
+              message: 'koi itna khubsurt kese ho skta h. tmri shyd ye phli wo tsveer thi jisy ma ny bhtttttttttttt dekha tha ku k tm bhtt pyari lg rhi thi. i wishhh i could see your face right now. ❤️'
+            }
+          ];
+
+          const handlePasswordSubmit = () => {
+            if (passwordInput === correctPassword) {
+              setStage('question');
+            } else {
+              alert('Wrong password! Try again. 😊');
+              setPasswordInput('');
+            }
+          };
+
+          const handleNo = () => {
+            setShowNoReaction(true);
+            setTimeout(() => {
+              setShowNoReaction(false);
+              setPasswordInput('');
+              setStage('question');
+            }, 2000);
+          };
+
+          const handleYes = () => {
+            setStage('gallery');
+          };
+
+          if (stage === 'password') {
+            return (
+              <div style={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+                fontFamily: 'Arial, sans-serif'
+              }}>
+                <div style={{
+                  background: 'white',
+                  padding: '60px 40px',
+                  borderRadius: '20px',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+                  textAlign: 'center',
+                  maxWidth: '400px'
+                }}>
+                  <h1 style={{ color: '#333', marginBottom: '10px' }}>🎂 Happy Birthday! 🎂</h1>
+                  <p style={{ color: '#666', marginBottom: '30px' }}>Enter the password to open your gift</p>
+                  
+                  <input
+                    type="password"
+                    value={passwordInput}
+                    onChange={(e) => setPasswordInput(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handlePasswordSubmit()}
+                    placeholder="Enter your birthday (DDMM)"
+                    style={{
+                      width: '100%',
+                      padding: '15px',
+                      fontSize: '18px',
+                      borderRadius: '10px',
+                      border: '2px solid #667eea',
+                      boxSizing: 'border-box',
+                      marginBottom: '20px',
+                      textAlign: 'center',
+                      letterSpacing: '5px'
+                    }}
+                  />
+                  
+                  <button
+                    onClick={handlePasswordSubmit}
+                    style={{
+                      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '15px 40px',
+                      borderRadius: '10px',
+                      fontSize: '16px',
+                      fontWeight: 'bold',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s'
+                    }}
+                    onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                  >
+                    Open Gift 💝
+                  </button>
+                </div>
+              </div>
+            );
+          }
+
+          if (stage === 'question') {
+            return (
+              <div style={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '20px',
+                fontFamily: 'Arial, sans-serif'
+              }}>
+                <div style={{
+                  textAlign: 'center',
+                  maxWidth: '500px'
+                }}>
+                  {showNoReaction ? (
+                    <div style={{
+                      background: 'white',
+                      padding: '60px 40px',
+                      borderRadius: '20px',
+                      boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+                    }}>
+                      <div style={{ fontSize: '120px', marginBottom: '20px' }}>🤨</div>
+                      <h2 style={{ color: '#333', fontSize: '32px' }}>Think before you choose!</h2>
+                      <p style={{ color: '#666', marginTop: '20px' }}>Seriously? Let's try that again...</p>
+                    </div>
+                  ) : (
+                    <div style={{
+                      background: 'white',
+                      padding: '60px 40px',
+                      borderRadius: '20px',
+                      boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+                    }}>
+                      <h1 style={{ color: '#333', fontSize: '36px', marginBottom: '20px' }}>❤️ Will you celebrate with me? ❤️</h1>
+                      <p style={{ color: '#666', fontSize: '18px', marginBottom: '40px' }}>Let's make today special together...</p>
+                      
+                      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+                        <button
+                          onClick={handleNo}
+                          style={{
+                            background: '#ff6b6b',
+                            color: 'white',
+                            border: 'none',
+                            padding: '15px 40px',
+                            borderRadius: '10px',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s'
+                          }}
+                          onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                          onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                        >
+                          No 😔
+                        </button>
+                        
+                        <button
+                          onClick={handleYes}
+                          style={{
+                            background: '#51cf66',
+                            color: 'white',
+                            border: 'none',
+                            padding: '15px 40px',
+                            borderRadius: '10px',
+                            fontSize: '18px',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            transition: 'transform 0.2s'
+                          }}
+                          onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                          onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                        >
+                          Yes! 😍
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          }
+
+          if (stage === 'gallery') {
+            const current = memories[currentIndex];
+            
+            return (
+              <div style={{
+                minHeight: '100vh',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                padding: '20px',
+                fontFamily: 'Arial, sans-serif'
+              }}>
+                <div style={{
+                  maxWidth: '700px',
+                  margin: '0 auto'
+                }}>
+                  <div style={{ textAlign: 'center', marginBottom: '20px', marginTop: '20px' }}>
+                    <h1 style={{ color: 'white', fontSize: '32px', marginBottom: '10px' }}>✨ Our Beautiful Moments ✨</h1>
+                    <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '16px' }}>Photo {currentIndex + 1} of {memories.length}</p>
+                  </div>
+
+                  <div style={{
+                    background: 'white',
+                    borderRadius: '20px',
+                    overflow: 'hidden',
+                    boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+                  }}>
+                    <img
+                      src={current.image}
+                      alt="Memory"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        maxHeight: '500px',
+                        objectFit: 'cover',
+                        display: 'block'
+                      }}
+                    />
+                    
+                    <div style={{
+                      padding: '30px',
+                      minHeight: '200px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}>
+                      <p style={{
+                        color: '#333',
+                        fontSize: '16px',
+                        lineHeight: '1.8',
+                        textAlign: 'center',
+                        fontStyle: 'italic',
+                        margin: '0'
+                      }}>
+                        {current.message}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: '30px',
+                    gap: '15px'
+                  }}>
+                    <button
+                      onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+                      disabled={currentIndex === 0}
+                      style={{
+                        background: currentIndex === 0 ? '#ccc' : 'white',
+                        color: '#333',
+                        border: 'none',
+                        padding: '12px 30px',
+                        borderRadius: '10px',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        cursor: currentIndex === 0 ? 'not-allowed' : 'pointer',
+                        transition: 'transform 0.2s'
+                      }}
+                      onMouseOver={(e) => currentIndex !== 0 && (e.target.style.transform = 'scale(1.05)')}
+                      onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                    >
+                      ← Previous
+                    </button>
+
+                    <div style={{
+                      display: 'flex',
+                      gap: '8px',
+                      justifyContent: 'center',
+                      flex: 1
+                    }}>
+                      {memories.map((_, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => setCurrentIndex(idx)}
+                          style={{
+                            width: '12px',
+                            height: '12px',
