@@ -17,14 +17,50 @@
             display: none;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
         .screen.active {
             display: flex;
         }
+
+        /* ANIMATED BACKGROUNDS */
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+            50% { background: linear-gradient(135deg, #764ba2 0%, #667eea 100%); }
+            100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* PASSWORD SCREEN WITH ANIMATION */
         .password-screen {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             align-items: center;
             justify-content: center;
+            animation: gradientShift 8s ease infinite;
+        }
+        .password-screen::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
         }
         .password-container {
             background: white;
@@ -33,11 +69,14 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 400px;
+            position: relative;
+            z-index: 1;
         }
         .password-container h1 {
             color: #333;
             margin-bottom: 10px;
             font-size: 32px;
+            animation: wave 2s ease-in-out infinite;
         }
         .password-container p {
             color: #666;
@@ -70,10 +109,23 @@
             color: white;
             width: 100%;
         }
+
+        /* QUESTION SCREEN WITH ANIMATION */
         .question-screen {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             align-items: center;
             justify-content: center;
+            animation: gradientShift 8s ease infinite;
+        }
+        .question-screen::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: wave 20s linear infinite;
+            pointer-events: none;
         }
         .question-container {
             background: white;
@@ -82,11 +134,14 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 500px;
+            position: relative;
+            z-index: 1;
         }
         .question-container h1 {
             color: #333;
             font-size: 36px;
             margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
         }
         .question-container p {
             color: #666;
@@ -109,17 +164,36 @@
         .reaction {
             font-size: 120px;
             margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
         .reaction-text {
             color: #333;
             font-size: 32px;
         }
 
-        /* CELEBRATION SCREEN */
+        /* CELEBRATION SCREEN WITH ANIMATION */
         .celebration-screen {
             background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
             align-items: center;
             justify-content: center;
+            animation: gradientShift 6s ease infinite;
+        }
+        .celebration-screen::before {
+            content: '🎉 🎊 ✨ 🎈 🎁 🎉 🎊 ✨ 🎈 🎁';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            opacity: 0.1;
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
         }
         .celebration-container {
             background: white;
@@ -128,20 +202,19 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             text-align: center;
             max-width: 500px;
+            position: relative;
+            z-index: 1;
         }
         .celebration-emoji {
             font-size: 80px;
             margin-bottom: 20px;
-            animation: bounce 1s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+            animation: bounce 0.8s infinite;
         }
         .celebration-container h1 {
             color: #333;
             font-size: 40px;
             margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
         }
         .celebration-container p {
             color: #666;
@@ -162,14 +235,30 @@
             }
         }
 
-        /* GALLERY SCREEN */
+        /* GALLERY SCREEN WITH ANIMATION */
         .gallery-screen {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
+            animation: gradientShift 8s ease infinite;
+        }
+        .gallery-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+            pointer-events: none;
         }
         .gallery-container {
             max-width: 700px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
         .gallery-header {
             text-align: center;
@@ -180,6 +269,7 @@
             color: white;
             font-size: 32px;
             margin-bottom: 10px;
+            animation: wave 3s ease-in-out infinite;
         }
         .gallery-header p {
             color: rgba(255,255,255,0.9);
@@ -190,6 +280,7 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: float 4s ease-in-out infinite;
         }
         .photo-card img {
             width: 100%;
@@ -246,13 +337,37 @@
         }
         .dot.active {
             background: white;
+            animation: pulse 1s ease-in-out;
         }
 
-        /* FINAL WISHES SCREEN */
+        /* FINAL WISHES SCREEN WITH ANIMATION */
         .wishes-screen {
             background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
             align-items: center;
             justify-content: center;
+            animation: gradientShift 8s ease infinite;
+        }
+        .wishes-screen::before {
+            content: '❤️ 💕 💖 💗 💝 ❤️ 💕 💖 💗 💝';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            opacity: 0.08;
+            animation: float 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .wishes-screen::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+            pointer-events: none;
         }
         .wishes-container {
             background: white;
@@ -261,11 +376,14 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             max-width: 600px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
         .wishes-container h1 {
             color: #e74c3c;
             font-size: 40px;
             margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
         }
         .wishes-container p {
             color: #333;
@@ -273,16 +391,25 @@
             line-height: 2;
             margin-bottom: 20px;
             font-style: italic;
+            animation: wave 4s ease-in-out infinite;
         }
         .wishes-signature {
             color: #e74c3c;
             font-size: 20px;
             font-weight: bold;
             margin-top: 40px;
+            animation: float 3s ease-in-out infinite;
         }
         .heart-emoji {
             font-size: 30px;
             margin: 20px 0;
+            animation: bounce 1s infinite;
+        }
+        .wishes-button {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            width: 100%;
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -367,11 +494,16 @@
             
             <div class="heart-emoji">❤️💕💖💗💝</div>
             
-            <p style="font-size: 20px; margin-top: 30px;">Happy Birthday to my absolute favorite person in the entire world. You are everything and more.</p>
+            <p style="font-size: 20px; margin-top: 30px;">Happy Birthday to my absolute favorite person in the entire world. You are everything and more. Wishing you a day as beautiful and special as you are.</p>
+
+            <p style="font-size: 18px; margin-top: 20px;">May every moment of your birthday be filled with joy, laughter, and the warmth of knowing how deeply loved you are. You make the world a better place just by being in it.</p>
+
+            <p style="font-size: 18px; margin-top: 20px;">Here's to celebrating YOU today and every day. You deserve the stars, the moon, and everything beautiful in between. 🌟✨💫</p>
             
             <div class="wishes-signature">
-                Forever yours,<br>
+                Forever yours with all my love,<br>
                 Mehrosh 💕
+                <p style="margin-top: 20px; font-size: 16px; color: #666;">Happy Birthday Beautiful! 🎂🎉💝</p>
             </div>
         </div>
     </div>
@@ -384,7 +516,7 @@
             },
             {
                 image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-01-01%20at%2010.31.54%20AM.jpeg',
-                message: 'hm hm mere bgyr ja kr kha lia tha pizza hna dosto sath. tmy meri blkl yd nhi ai naial?? 😭 (kachiiiiiiii). jao jao ab unhi k sath ja kr khana.. but but but. hmeshaaa ki trha bhtt pyari lg rhi ho or meri lg rhi ho.'
+                message: 'hm hm mere bgyr ja kr kha lia tha pizza hna dosto sath. tmy meri blkl yd nhi ai naial?? 😭 (kachiiiiicci). jao jao ab unhi k sath ja kr khana.. but but but. hmeshaaa ki trha bhtt pyari lg rhi ho or meri lg rhi ho.'
             },
             {
                 image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-05-23%20at%204.57.23%20PM.jpeg',
