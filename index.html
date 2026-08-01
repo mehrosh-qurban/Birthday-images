@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .screen.active {
+            display: flex;
+        }
+        .password-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            align-items: center;
+            justify-content: center;
+        }
+        .password-container {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 400px;
+        }
+        .password-container h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .password-container p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .password-container input {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        button {
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        button:hover:not(:disabled) {
+            transform: scale(1.05);
+        }
+        .btn-open {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+        }
+        .question-screen {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            align-items: center;
+            justify-content: center;
+        }
+        .question-container {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        .question-container h1 {
+            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .question-container p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .btn-no {
+            background: #ff6b6b;
+            color: white;
+        }
+        .btn-yes {
+            background: #51cf66;
+            color: white;
+        }
+        .reaction {
+            font-size: 120px;
+            margin-bottom: 20px;
+        }
+        .reaction-text {
+            color: #333;
+            font-size: 32px;
+        }
+
+        /* CELEBRATION SCREEN */
+        .celebration-screen {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            align-items: center;
+            justify-content: center;
+        }
+        .celebration-container {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+        .celebration-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        .celebration-container h1 {
+            color: #333;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .celebration-container p {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* GALLERY SCREEN */
+        .gallery-screen {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .gallery-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .gallery-header h1 {
+            color: white;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        .gallery-header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+        .photo-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .photo-card img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+        .message-section {
+            padding: 30px;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .message-section p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.8;
+            text-align: center;
+            font-style: italic;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        .btn-nav {
+            background: white;
+            color: #333;
+            padding: 12px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        .btn-nav:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex: 1;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .dot.active {
+            background: white;
+        }
+
+        /* FINAL WISHES SCREEN */
+        .wishes-screen {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            align-items: center;
+            justify-content: center;
+        }
+        .wishes-container {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            text-align: center;
+        }
+        .wishes-container h1 {
+            color: #e74c3c;
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+        .wishes-container p {
+            color: #333;
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .wishes-signature {
+            color: #e74c3c;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+        }
+        .heart-emoji {
+            font-size: 30px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- PASSWORD SCREEN -->
+    <div id="passwordScreen" class="screen active password-screen">
+        <div class="password-container">
+            <h1>🎂 Happy Birthday! 🎂</h1>
+            <p>Enter the password to open your gift</p>
+            <input 
+                type="password" 
+                id="passwordInput" 
+                placeholder="Enter your birthday (DDMM)"
+                onkeypress="if(event.key==='Enter') checkPassword()"
+            >
+            <button class="btn-open" onclick="checkPassword()">Open Gift 💝</button>
+        </div>
+    </div>
+
+    <!-- QUESTION SCREEN -->
+    <div id="questionScreen" class="screen question-screen">
+        <div class="question-container">
+            <div id="questionContent">
+                <h1>❤️ Will you celebrate with me? ❤️</h1>
+                <p>Let's make today special together...</p>
+                <div class="btn-group">
+                    <button class="btn-no" onclick="handleNo()">No 😔</button>
+                    <button class="btn-yes" onclick="handleYes()">Yes! 😍</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CELEBRATION SCREEN -->
+    <div id="celebrationScreen" class="screen celebration-screen">
+        <div class="celebration-container">
+            <div class="celebration-emoji">🎉🎊✨</div>
+            <h1>Yes! Seriously? 🥳</h1>
+            <p>I can't believe you said YES!!!</p>
+            <p>Let's celebrate this amazing day together! 💕</p>
+            <button class="btn-yes" onclick="goToGallery()" style="width: 100%; margin-top: 30px;">See Our Moments →</button>
+        </div>
+    </div>
+
+    <!-- GALLERY SCREEN -->
+    <div id="galleryScreen" class="screen gallery-screen">
+        <div class="gallery-container">
+            <div class="gallery-header">
+                <h1>✨ Our Beautiful Moments ✨</h1>
+                <p>Photo <span id="currentPhoto">1</span> of 7</p>
+            </div>
+
+            <div class="photo-card">
+                <img id="photoImg" src="" alt="Memory">
+                <div class="message-section">
+                    <p id="photoMessage"></p>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-nav" id="prevBtn" onclick="previousPhoto()">← Previous</button>
+                <div class="dots" id="dotsContainer"></div>
+                <button class="btn-nav" id="nextBtn" onclick="nextPhoto()">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FINAL WISHES SCREEN -->
+    <div id="wishesScreen" class="screen wishes-screen">
+        <div class="wishes-container">
+            <h1>💕 My Dearest Naial 💕</h1>
+            
+            <p>Where do I even start...</p>
+            
+            <p>You are the best person I have ever known. Not just the best for me, but the best person. Your kindness, your laugh, the way you light up every moment - it's pure magic. ✨</p>
+            
+            <p>Every memory with you is a treasure. From our silly moments to the quiet ones, each second with you is a blessing I never take for granted.</p>
+            
+            <p>You deserve all the happiness in this world. All the love, all the joy, all the beautiful moments. I wish I could give you the entire universe wrapped in a bow.</p>
+            
+            <p>Thank you for being you. Thank you for choosing to celebrate with me. Thank you for making every day brighter.</p>
+            
+            <div class="heart-emoji">❤️💕💖💗💝</div>
+            
+            <p style="font-size: 20px; margin-top: 30px;">Happy Birthday to my absolute favorite person in the entire world. You are everything and more.</p>
+            
+            <div class="wishes-signature">
+                Forever yours,<br>
+                Mehrosh 💕
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const memories = [
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202025-11-25%20at%209.57.44%20PM.jpeg',
+                message: 'Meri last bdy yd h na? wow, kitna asha din tha wo. na bhulny waly dino myn sy. tm pyari lg rhi thi, hmesha ki trha. or meri lg rhi thi. i wish hm meri hr bdy sath mna sky. tm hr br ese hi ao. kitna asha lgy ga na. hm hm blkl blkl asha to lgy ga bhaee.'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-01-01%20at%2010.31.54%20AM.jpeg',
+                message: 'hm hm mere bgyr ja kr kha lia tha pizza hna dosto sath. tmy meri blkl yd nhi ai naial?? 😭 (kachiiiiiiii). jao jao ab unhi k sath ja kr khana.. but but but. hmeshaaa ki trha bhtt pyari lg rhi ho or meri lg rhi ho.'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-05-23%20at%204.57.23%20PM.jpeg',
+                message: 'ye yd h? hm jb b milty h to aksr tsveer nhi bnatyy. so this is the rarest moment ever i guess. tmy milkshake psnd nhi aya. hd hh wese. tmy wo kese napsnd ho skta naiall... looo phr sy kachiiiiiiiii.'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/WhatsApp%20Image%202026-05-27%20at%204.14.58%20PM.jpeg',
+                message: 'ahaaaa... meri eid to isy dekhny k bd hui thi. tm kitni pyari lg rhi thi. wait a minute.. tm ny ye dlt kr di thi hna??? or kia kha tha? usy snd kru gi. hm hm jao jao ab phr sy kachiiiiiiiiiiii'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/marahh%20jameela.jpeg',
+                message: 'You know naial. mjy lrkiya nkab myn bht psnd h. or phr pyari lrkiya to kia hi bt.. or mjy tmri ye tsveer bhttt psnd h. ma ny isy maraah jameela k nam sy save kia h. meri mano to ese hi nkab shuru kr do. pr phr tm roz rasty myn lrko ko hear attack krwa k aya kro gi. phr sy kachiiiiiiiiiiiiiiiiii'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/mere%20psndida%20hath.jpeg',
+                message: 'Mjy tmry hath bht psnd h. mere psandida hath. ma ny isi nam sy save ki h ye tsveer. tmri nazuk sfaid ptli ungliya. uffffff mjy bhttttt psndd h. chlo ab isi bt py pakiii kr lete.'
+            },
+            {
+                image: 'https://raw.githubusercontent.com/mehrosh-qurban/Birthday-images/main/images/naial.jpg',
+                message: 'koi itna khubsurt kese ho skta h. tmri shyd ye phli wo tsveer thi jisy ma ny bhtttttttttttt dekha tha ku k tm bhtt pyari lg rhi thi. i wishhh i could see your face right now. ❤️'
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            if (input === '1210') {
+                showScreen('questionScreen');
+            } else {
+                alert('Wrong password! Try again. 😊');
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        function handleNo() {
+            const container = document.querySelector('.question-container');
+            container.innerHTML = `
+                <div class="reaction">🤨</div>
+                <h2 class="reaction-text">Think before you choose!</h2>
+                <p style="color: #666; margin-top: 20px;">Seriously? Let's try that again...</p>
+            `;
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div id="questionContent">
+                        <h1>❤️ Will you celebrate with me? ❤️</h1>
+                        <p>Let's make today special together...</p>
+                        <div class="btn-group">
+                            <button class="btn-no" onclick="handleNo()">No 😔</button>
+                            <button class="btn-yes" onclick="handleYes()">Yes! 😍</button>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        function handleYes() {
+            showScreen('celebrationScreen');
+            createConfetti();
+        }
+
+        function goToGallery() {
+            currentIndex = 0;
+            loadPhoto(0);
+            createDots();
+            showScreen('galleryScreen');
+        }
+
+        function loadPhoto(index) {
+            const photo = memories[index];
+            document.getElementById('photoImg').src = photo.image;
+            document.getElementById('photoMessage').textContent = photo.message;
+            document.getElementById('currentPhoto').textContent = index + 1;
+
+            document.getElementById('prevBtn').disabled = index === 0;
+            document.getElementById('nextBtn').disabled = index === memories.length - 1;
+
+            document.querySelectorAll('.dot').forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === index);
+            });
+        }
+
+        function createDots() {
+            const container = document.getElementById('dotsContainer');
+            container.innerHTML = '';
+            memories.forEach((_, idx) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot' + (idx === 0 ? ' active' : '');
+                dot.onclick = () => {
+                    currentIndex = idx;
+                    loadPhoto(idx);
+                };
+                container.appendChild(dot);
+            });
+        }
+
+        function previousPhoto() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadPhoto(currentIndex);
+            }
+        }
+
+        function nextPhoto() {
+            if (currentIndex < memories.length - 1) {
+                currentIndex++;
+                loadPhoto(currentIndex);
+            } else if (currentIndex === memories.length - 1) {
+                // Go to wishes screen after last image
+                showScreen('wishesScreen');
+            }
+        }
+
+        function createConfetti() {
+            const confettiPieces = 50;
+            const colors = ['#ffd700', '#ff69b4', '#00bfff', '#32cd32', '#ff6347'];
+            
+            for (let i = 0; i < confettiPieces; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 3500);
+            }
+        }
+    </script>
+</body>
+</html>
